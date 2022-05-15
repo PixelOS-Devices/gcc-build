@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Author: Vaisakh Murali
 
-echo "*****************************************"
-echo "* Building Bare-Metal Bleeding Edge GCC *"
-echo "*****************************************"
+echo "**********************************"
+echo "* Building Bare-Metal Stable GCC *"
+echo "**********************************"
 
 # TODO: Add more dynamic option handling
 while getopts a: flag; do
@@ -32,10 +32,10 @@ echo "||                                                                    ||"
 download_resources() {
   echo "Downloading Pre-requisites"
   echo "Cloning binutils"
-  git clone git://sourceware.org/git/binutils-gdb.git -b master binutils --depth=1
+  git clone git://sourceware.org/git/binutils-gdb.git -b binutils-2_38-branch binutils --depth=1
   echo "Cloned binutils!"
   echo "Cloning GCC"
-  git clone git://gcc.gnu.org/git/gcc.git -b master gcc --depth=1
+  git clone git://gcc.gnu.org/git/gcc.git -b releases/gcc-12 gcc --depth=1
   cd ${WORK_DIR}
   echo "Downloaded prerequisites!"
 }
@@ -67,7 +67,7 @@ build_gcc() {
   echo "Building GCC"
   cd gcc
   ./contrib/download_prerequisites
-  echo "Bleeding Edge" > gcc/DEV-PHASE
+  echo "Stable" > gcc/DEV-PHASE
   cd ../
   mkdir build-gcc
   cd build-gcc
