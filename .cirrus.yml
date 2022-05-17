@@ -1,0 +1,53 @@
+env:
+  CIRRUS_CLONE_DEPTH: "1"
+  GITHUB_TOKEN: "ENCRYPTED[!37f49a3c2ff53ae3cd6478518356b31d939652e0113563bc5eb7810872807212776b2a02c17c21f6228eb967162fb357!]"
+  RCLONE_CONF: "ENCRYPTED[!f561cdd03c82c5d1e30aece7427aa751dc66fce3a2ad27089e2b10a7809e44c8c17149deea8858679b109aa4a2a8a95b!]"
+
+arm64_task:
+  name: ARM64 build
+  timeout_in: 120m
+  container:
+    image: archlinux:base-devel
+    cpu: 8
+    memory: 20G
+  setup_env_script:
+    - pacman -Syu --needed --noconfirm ccache clang cmake git lib32-glibc libc++ lld lldb llvm ninja rclone tar
+    - mkdir -p ~/.config/rclone
+    - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
+    - rclone copy gdrive:ccache-arm64.tar /tmp
+    - tar xf /tmp/ccache-arm64.tar -C /tmp
+    - rm /tmp/ccache-arm64.tar
+    - ccache --set-config=cache_dir=/tmp/ccache
+    - ccache --set-config=max_size=3000M
+    - ccache --set-config=compression=true
+    - chmod a+x ci.sh
+  build_script:
+    - env PATH="/usr/lib/ccache/bin:${PATH}" bash ci.sh --arm64
+  store_cache_script:
+    - tar -C /tmp -cf /tmp/ccache-arm64.tar ccache
+    - rclone copy /tmp/ccache-arm64.tar gdrive
+
+arm_task:
+  name: ARM build
+  timeout_in: 120m
+  container:
+    image: archlinux:base-devel
+    cpu: 8
+    memory: 20G
+  setup_env_script:
+    - pacman -Syu --needed --noconfirm ccache clang cmake git lib32-glibc libc++ lld lldb llvm ninja rclone tar
+    - mkdir -p ~/.config/rclone
+    - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
+    - rclone copy gdrive:ccache-arm.tar /tmp
+    - tar xf /tmp/ccache-arm.tar -C /tmp
+    - rm /tmp/ccache-arm.tar
+    - ccache --set-config=cache_dir=/tmp/ccache
+    - ccache --set-config=max_size=3000M
+    - ccache --set-config=compression=true
+    - chmod a+x ci.sh
+  build_script:
+    - env PATH="/usr/lib/ccache/bin:${PATH}" bash ci.sh --arm
+  store_cache_script:
+    - ccache -s
+    - tar -C /tmp -cf /tmp/ccache-arm.tar ccache
+    - rclone copy /tmp/ccache-arm.tar gdrive
