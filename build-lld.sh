@@ -56,6 +56,7 @@ build_lld() {
   mkdir -p llvm-project/lld/build
   cd llvm-project/lld/build
   export INSTALL_LLD_DIR="${PREFIX}"
+  export LLVM_CMAKE_PATH="$(find /usr -name LLVMConfig.cmake -print 2>/dev/null | xargs dirname)"
   cmake .. -G "Ninja" \
     -DBUILD_SHARED_LIBS=Off \
     -DCMAKE_BUILD_TYPE=Release \
@@ -68,6 +69,7 @@ build_lld() {
     -DCMAKE_CXX_FLAGS="-O3" \
     -DCMAKE_INSTALL_PREFIX="$INSTALL_LLD_DIR" \
     -DLLVM_BUILD_RUNTIME=Off \
+    -DLLVM_CMAKE_PATH=$LLVM_CMAKE_PATH \
     -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_CLANG \
     -DLLVM_ENABLE_BACKTRACES=Off \
     -DLLVM_ENABLE_LTO=Full \
