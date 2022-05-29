@@ -7,11 +7,13 @@ arm64_task:
   name: ARM64 build
   timeout_in: 120m
   container:
-    image: archlinux:base-devel
+    image: fedora:rawhide
     cpu: 8
     memory: 20G
   setup_env_script:
-    - pacman -Syu --needed --noconfirm ccache clang cmake git lib32-glibc libc++ lld lldb llvm ninja rclone tar
+    - dnf -y upgrade
+    - dnf -y groupinstall "Development tools"
+    - dnf -y install binutils-devel bison ccache clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build rclone tar texinfo which zlib-devel
     - mkdir -p ~/.config/rclone
     - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
     - rclone copy gdrive:ccache-arm64.tar /tmp
@@ -22,7 +24,7 @@ arm64_task:
     - ccache --set-config=compression=true
     - chmod a+x ci.sh
   build_script:
-    - env PATH="/usr/lib/ccache/bin:${PATH}" bash ci.sh --arm64
+    - env PATH="/usr/lib64/ccache:${PATH}" bash ci.sh --arm64
   store_cache_script:
     - tar -C /tmp -cf /tmp/ccache-arm64.tar ccache
     - rclone copy /tmp/ccache-arm64.tar gdrive
@@ -31,11 +33,13 @@ arm_task:
   name: ARM build
   timeout_in: 120m
   container:
-    image: archlinux:base-devel
+    image: fedora:rawhide
     cpu: 8
     memory: 20G
   setup_env_script:
-    - pacman -Syu --needed --noconfirm ccache clang cmake git lib32-glibc libc++ lld lldb llvm ninja rclone tar
+    - dnf -y upgrade
+    - dnf -y groupinstall "Development tools"
+    - dnf -y install binutils-devel bison ccache clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build rclone tar texinfo which zlib-devel
     - mkdir -p ~/.config/rclone
     - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
     - rclone copy gdrive:ccache-arm.tar /tmp
@@ -46,7 +50,7 @@ arm_task:
     - ccache --set-config=compression=true
     - chmod a+x ci.sh
   build_script:
-    - env PATH="/usr/lib/ccache/bin:${PATH}" bash ci.sh --arm
+    - env PATH="/usr/lib64/ccache:${PATH}" bash ci.sh --arm
   store_cache_script:
     - ccache -s
     - tar -C /tmp -cf /tmp/ccache-arm.tar ccache
