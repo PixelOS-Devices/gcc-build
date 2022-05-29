@@ -60,9 +60,11 @@ build_lld() {
     -DBUILD_SHARED_LIBS=Off \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER=$(which clang) \
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
     -DCMAKE_C_FLAGS="-O3" \
     -DCMAKE_CROSSCOMPILING=True \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DCMAKE_CXX_FLAGS="-O3" \
     -DCMAKE_INSTALL_PREFIX="$INSTALL_LLD_DIR" \
     -DLLVM_BUILD_RUNTIME=Off \
