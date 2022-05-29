@@ -85,7 +85,7 @@ build_gcc() {
     --disable-nls \
     --disable-shared \
     --enable-default-ssp \
-    --enable-languages=c,c++ \
+    --enable-languages=c \
     --enable-threads=posix \
     --prefix="$PREFIX" \
     --with-glibc-version=2.27 \
