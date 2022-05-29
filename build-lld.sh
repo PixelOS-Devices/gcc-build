@@ -35,8 +35,8 @@ esac
 
 # Let's keep this as is
 export WORK_DIR="$PWD"
-export PREFIX="./../gcc-${arch}"
-export PATH="$PREFIX/bin:$PATH"
+export PREFIX="${WORK_DIR}/../gcc-${arch}"
+export PATH="${PREFIX}/bin:$PATH"
 
 echo "Building Integrated lld for ${arch} with ${TARGET} as target"
 
@@ -44,7 +44,7 @@ download_resources() {
   echo ">"
   echo "> Downloading LLVM for LLD"
   echo ">"
-  git clone https://github.com/llvm/llvm-project -b release/14.x llvm --depth=1
+  git clone https://github.com/llvm/llvm-project -b release/14.x llvm-project --depth=1
   cd ${WORK_DIR}
 }
 
@@ -53,10 +53,10 @@ build_lld() {
   echo ">"
   echo "> Building LLD"
   echo ">"
-  mkdir -p llvm/build
-  cd llvm/build
-  export INSTALL_LLD_DIR="../../../gcc-${arch}"
-  cmake -G "Ninja" \
+  mkdir -p llvm-project/lld/build
+  cd llvm-project/lld/build
+  export INSTALL_LLD_DIR="${PREFIX}"
+  cmake .. -G "Ninja" \
     -DBUILD_SHARED_LIBS=Off \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER=$(which clang) \
@@ -81,8 +81,7 @@ build_lld() {
     -DLLVM_PARALLEL_LINK_JOBS=4 \
     -DLLVM_TARGET_ARCH=$ARCH_CLANG \
     -DLLVM_TARGETS_TO_BUILD=$ARCH_CLANG \
-    -DLLVM_USE_LINKER=lld \
-    ../llvm
+    -DLLVM_USE_LINKER=lld
   ninja
   ninja install
   # Create proper symlinks
