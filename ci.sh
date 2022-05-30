@@ -34,6 +34,8 @@ bash $script_dir/strip-binaries.sh
 ./bin/${TARGET}-gcc -v 2>&1 | tee /tmp/gcc-version
 ./bin/${TARGET}-ld.lld -v 2>&1 | tee /tmp/lld-version
 
+tmate
+
 git add . -f
 git commit -as -m "Import ${ARCH} GCC $(/bin/date -u "+%Y%m%d")" -m "Build completed on: $(/bin/date)" -m "Configuration: $(/bin/cat /tmp/gcc-version)" -m "LLD: $(/bin/cat /tmp/lld-version)"
 git gc || true
