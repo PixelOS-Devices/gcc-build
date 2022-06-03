@@ -4,9 +4,9 @@ set -e
 
 export TZ=Asia/Kolkata
 
-USER="KenHV"
-MAIL="yo@kenharris.xyz"
-ORG="KenHV"
+USER="cyberknight777"
+MAIL="cyberknight755@gmail.com"
+ORG="cyberknight777"
 BRANCH="master"
 
 if [ "$1" = "--arm64" ]; then
@@ -35,6 +35,6 @@ bash $script_dir/strip-binaries.sh
 ./bin/${TARGET}-ld.lld -v 2>&1 | tee /tmp/lld-version
 
 git add . -f
-git commit -as -m "Import ${ARCH} GCC $(/bin/date -u "+%Y%m%d")" -m "Build completed on: $(/bin/date)" -m "Configuration: $(/bin/cat /tmp/gcc-version)" -m "LLD: $(/bin/cat /tmp/lld-version)"
+git commit -as -m "EvaGCC: Import ${ARCH} GCC $(/bin/date -u "+%Y%m%d")" -m "Build completed on: $(/bin/date)" -m "Configuration: $(/bin/cat /tmp/gcc-version)" -m "LLD: $(/bin/cat /tmp/lld-version)"
 git gc || true
 git push -f

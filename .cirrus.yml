@@ -1,7 +1,6 @@
 env:
   CIRRUS_CLONE_DEPTH: "1"
-  GITHUB_TOKEN: "ENCRYPTED[!37f49a3c2ff53ae3cd6478518356b31d939652e0113563bc5eb7810872807212776b2a02c17c21f6228eb967162fb357!]"
-  RCLONE_CONF: "ENCRYPTED[!f561cdd03c82c5d1e30aece7427aa751dc66fce3a2ad27089e2b10a7809e44c8c17149deea8858679b109aa4a2a8a95b!]"
+  GITHUB_TOKEN: "ENCRYPTED[75db4a3a95cd4858ff61d5de8bbab14abc02b739c03c6fbc54ee53228e8afe3467f5d5e9f1094532325321379d1863c9]"
 
 arm64_task:
   name: ARM64 build
@@ -13,21 +12,10 @@ arm64_task:
   setup_env_script:
     - dnf -y upgrade
     - dnf -y groupinstall "Development tools"
-    - dnf -y install binutils-devel bison ccache clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build rclone tar texinfo which zlib-devel
-    - mkdir -p ~/.config/rclone
-    - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
-    - rclone copy gdrive:ccache-arm64.tar /tmp
-    - tar xf /tmp/ccache-arm64.tar -C /tmp
-    - rm /tmp/ccache-arm64.tar
-    - ccache --set-config=cache_dir=/tmp/ccache
-    - ccache --set-config=max_size=3000M
-    - ccache --set-config=compression=true
+    - dnf -y install binutils-devel bison clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build tar texinfo which zlib-devel
     - chmod a+x ci.sh
   build_script:
-    - env PATH="/usr/lib64/ccache:${PATH}" bash ci.sh --arm64
-  store_cache_script:
-    - tar -C /tmp -cf /tmp/ccache-arm64.tar ccache
-    - rclone copy /tmp/ccache-arm64.tar gdrive
+    - env bash ci.sh --arm64
 
 arm_task:
   name: ARM build
@@ -39,19 +27,7 @@ arm_task:
   setup_env_script:
     - dnf -y upgrade
     - dnf -y groupinstall "Development tools"
-    - dnf -y install binutils-devel bison ccache clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build rclone tar texinfo which zlib-devel
-    - mkdir -p ~/.config/rclone
-    - echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
-    - rclone copy gdrive:ccache-arm.tar /tmp
-    - tar xf /tmp/ccache-arm.tar -C /tmp
-    - rm /tmp/ccache-arm.tar
-    - ccache --set-config=cache_dir=/tmp/ccache
-    - ccache --set-config=max_size=3000M
-    - ccache --set-config=compression=true
+    - dnf -y install binutils-devel bison clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build tar texinfo which zlib-devel
     - chmod a+x ci.sh
   build_script:
-    - env PATH="/usr/lib64/ccache:${PATH}" bash ci.sh --arm
-  store_cache_script:
-    - ccache -s
-    - tar -C /tmp -cf /tmp/ccache-arm.tar ccache
-    - rclone copy /tmp/ccache-arm.tar gdrive
+    - env bash ci.sh --arm
