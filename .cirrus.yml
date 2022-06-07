@@ -6,14 +6,11 @@ arm64_task:
   name: ARM64 build
   timeout_in: 120m
   container:
-    image: fedora:rawhide
+    image: alpine:latest
     cpu: 8
     memory: 20G
   setup_env_script:
-    - dnf -y upgrade
-    - dnf -y groupinstall "Development tools"
-    - dnf -y install binutils-devel bison clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build tar texinfo which zlib-devel
-    - chmod a+x ci.sh
+    - apk add gcc g++ texinfo make curl bash ninja bison flex git cmake clang lld mpfr-dev mpc1-dev llvm clang python3
   build_script:
     - env bash ci.sh --arm64
 
@@ -21,13 +18,10 @@ arm_task:
   name: ARM build
   timeout_in: 120m
   container:
-    image: fedora:rawhide
+    image: alpine:latest
     cpu: 8
     memory: 20G
   setup_env_script:
-    - dnf -y upgrade
-    - dnf -y groupinstall "Development tools"
-    - dnf -y install binutils-devel bison clang cmake flex g++ glibc-devel glibc-devel.i686 gmp-devel libmpc-devel lld llvm llvm-devel mpfr-devel ninja-build tar texinfo which zlib-devel
-    - chmod a+x ci.sh
+    - apk add gcc g++ texinfo make curl bash ninja bison flex git cmake clang lld mpfr-dev mpc1-dev llvm clang python3
   build_script:
     - env bash ci.sh --arm
