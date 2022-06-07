@@ -38,7 +38,7 @@ export WORK_DIR="$PWD"
 export PREFIX="./../gcc-${arch}"
 export PATH="$PREFIX/bin:$PATH"
 
-echo "Building Integrated lld for ${arch} with ${TARGET} as target"
+echo "Building Integrated lld for ${arch} with ${TARGET_CLANG} as target"
 
 download_resources() {
   echo ">"
