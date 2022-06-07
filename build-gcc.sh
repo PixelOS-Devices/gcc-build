@@ -6,6 +6,10 @@ echo "**********************************"
 echo "* Building Bare-Metal Stable GCC *"
 echo "**********************************"
 
+# Both are needed, due to a bug in libtool
+export LDFLAGS="-s"
+export LDFLAGS_FOR_TARGET="-s"
+
 # TODO: Add more dynamic option handling
 while getopts a: flag; do
   case "${flag}" in

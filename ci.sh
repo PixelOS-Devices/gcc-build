@@ -29,7 +29,6 @@ chmod a+x *.sh
 
 script_dir=$(pwd)
 cd ../gcc-${ARCH}
-bash $script_dir/strip-binaries.sh
 
 ./bin/${TARGET}-gcc -v 2>&1 | tee /tmp/gcc-version
 ./bin/${TARGET}-ld.lld -v 2>&1 | tee /tmp/lld-version
