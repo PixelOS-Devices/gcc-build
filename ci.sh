@@ -35,5 +35,4 @@ cd ../gcc-${ARCH}
 
 git add . -f
 git commit -as -m "EvaGCC: Import ${ARCH} GCC $(/bin/date -u "+%Y%m%d")" -m "Build completed on: $(/bin/date)" -m "Configuration: $(/bin/cat /tmp/gcc-version)" -m "LLD: $(/bin/cat /tmp/lld-version)"
-git gc || true
 git push -f
