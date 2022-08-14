@@ -36,7 +36,7 @@ echo "||                                                                    ||"
 download_resources() {
   echo "Downloading Pre-requisites"
   echo "Cloning binutils"
-  git clone git://sourceware.org/git/binutils-gdb.git -b binutils-2_38-branch binutils --depth=1
+  git clone git://sourceware.org/git/binutils-gdb.git -b binutils-2_39-branch binutils --depth=1
   echo "Cloned binutils!"
   echo "Cloning GCC"
   git clone git://gcc.gnu.org/git/gcc.git -b releases/gcc-12 gcc --depth=1
