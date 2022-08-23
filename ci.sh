@@ -4,9 +4,9 @@ set -e
 
 export TZ=Asia/Kolkata
 
-USER="cyberknight777"
-MAIL="cyberknight755@gmail.com"
-ORG="cyberknight777"
+USER="geek0609"
+MAIL="astroashwin@outlook.com"
+ORG="PixelOS-Devices"
 BRANCH="master"
 
 if [ "$1" = "--arm64" ]; then
@@ -20,7 +20,7 @@ fi
 git config --global user.name ${USER}
 git config --global user.email ${MAIL}
 
-git clone https://${USER}:${GITHUB_TOKEN}@github.com/${ORG}/gcc-${ARCH} ../gcc-${ARCH} -b ${BRANCH} --depth=1
+git clone git@github.com:${ORG}/gcc-${ARCH} ../gcc-${ARCH} -b ${BRANCH} --depth=1
 rm -rf ../gcc-${ARCH}/*
 
 chmod a+x *.sh
