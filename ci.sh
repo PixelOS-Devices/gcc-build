@@ -7,7 +7,7 @@ export TZ=Asia/Kolkata
 USER="geek0609"
 MAIL="astroashwin@outlook.com"
 ORG="PixelOS-Devices"
-BRANCH="master"
+BRANCH="main"
 
 if [ "$1" = "--arm64" ]; then
     ARCH="arm64"
